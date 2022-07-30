@@ -1,5 +1,5 @@
 var isViewCartVisible = $('#cart-tab-view').is(':visible');
-console.log(isViewCartVisible)
+console.log("cart " + isViewCartVisible)
 
 if(isViewCartVisible){
     getCart()
@@ -10,9 +10,7 @@ function getCart(){
       if (user) {
         db.ref('product').child("cart").child(user.uid).once("value", function(snapshot){
             var userDataCart = snapshot.val()
-            console.log(userDataCart.total_amount)
-            for(let i = 1; i < userDataCart.product.length; i++){
-                console.log(userDataCart.product[i])
+            for(let i = 1; i < userDataCart.product.length ; i++){
                 var subTotal = userDataCart.product[i].quantity * userDataCart.product[i].price
                 document.getElementById("tbody-cart").innerHTML += `
                 <tr>
@@ -54,7 +52,7 @@ function getCart(){
         })
       }else{
         alert("Silahkan login terlebih dahulu")
-        window.location.href = "../GoodFood/signIn.php"
+        window.location.href = "../signIn.html"
       }
     })
 }
@@ -99,7 +97,7 @@ function donePayment(key){
     }).then(resp => {
         db.ref('product').child("cart").child(user.uid).remove().then(resp => {
             alert("Pembayaran berhasil")
-            window.location.href = "../GoodFood"
+            window.location.href = "../"
         })
     })
 }

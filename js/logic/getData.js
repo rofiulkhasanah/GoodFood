@@ -36,7 +36,7 @@ function getListProduct() {
             <div class="layout_padding" id="layout_padding">
                 <div class="card-deck" id="card-deck">
                     <div class="card" id="card">
-                        <img class="card-img-top" id="img-product" src="${list_product[index].pict}" alt="Card image cap" />
+                        <img class="card-img-top" style="width:100px; height:100px;" id="img-product" src="${list_product[index].pict}" alt="Card image cap" />
                         <div class="card-body" id="card-body">
                             <h5 class="card-title" id="product-title" >${list_product[index].name}</h5>
                             <p class="card-text" id="product-desc">
@@ -66,6 +66,7 @@ function getListProduct() {
 // get cart
 
 function addItem(idproduct) {
+  console.log("id productnya " + idproduct)
   auth.onAuthStateChanged(user => {
     if (user) {
       // cek data pada list product
@@ -73,29 +74,36 @@ function addItem(idproduct) {
         var list_product = snapshot.val();
         const locUserCart = db.ref('product').child("cart").child(user.uid)
         const locUserCartProduct = db.ref('product').child("cart").child(user.uid).child("product")
-
+        var count = 0
         for (let index = 0; index < Object.keys(list_product).length; index++) { // loop data list product dengan idProduct
-          if (list_product[index].id == idproduct) { // jika product sama dengan idproduct maka ditambahkan ke cart
+          // console.log("listproduct " + `${list_product}`)
+          if (list_product[Object.keys(list_product)[index]].id == idproduct) { // jika product sama dengan idproduct maka ditambahkan ke cart
+            // console.log("listproduct id" + `${list_product[Object.keys(list_product)[index]].product}`)
+          
 
             locUserCart.once("value", function (snapshotCart) {
               var dataCart = snapshotCart.val()
+              var keynya = snapshotCart.key
+              console.log("keynya " + keynya)
               if (dataCart == null) {
                 locUserCart.set({
-                  total_amount: list_product[index].price,
+                  total_amount: list_product[Object.keys(list_product)[index]].price,
                   product: idproduct
                 })
                   .then(response => {
-                    locUserCartProduct.child(list_product[index].id).set(
+                    locUserCartProduct.child(list_product[Object.keys(list_product)[index]].id).set(
                       {
-                        id: `${list_product[index].id}`,
-                        name: list_product[index].name,
-                        pict: list_product[index].pict,
-                        price: list_product[index].price,
-                        desc: list_product[index].desc,
+                        id: `${list_product[Object.keys(list_product)[index]].id}`,
+                        name: list_product[Object.keys(list_product)[index]].name,
+                        pict: list_product[Object.keys(list_product)[index]].pict,
+                        price: list_product[Object.keys(list_product)[index]].price,
+                        desc: list_product[Object.keys(list_product)[index]].desc,
                         quantity: 1
                       }
                     ).then(res => {
+                      console.log("count 1 " + count)
                       alert("Berhasil ditambahkan")
+                      count++
                     }).catch(error => {
                       errorHandler(error)
                     })
@@ -104,10 +112,16 @@ function addItem(idproduct) {
                   })
               } else {
                 // jika terdapat data
-                for (let i = 0; i < dataCart.product.length; i++) { //loop untuk cek data cart produk
-                  switch (dataCart.product[i].id) {
-                    case idproduct:
-                      var totalAmount = dataCart.total_amount + dataCart.product[i].price
+                let i = 0
+                let count2 = 0
+                if(dataCart.product != null){
+                  console.log("jumlahnya " + Object.values(dataCart.product))
+                for (i = 0; i < dataCart.product.length; i++) { //loop untuk cek data cart produk
+                  var show = false
+                  switch (idproduct) {
+                    // case idproduct:
+                    case dataCart.product[Object.keys(dataCart.product)[i]].id:
+                      var totalAmount = dataCart.total_amount + dataCart.product[Object.keys(dataCart.product)[i]].price
                       locUserCart.update({
                         total_amount: totalAmount
                       })
@@ -115,7 +129,11 @@ function addItem(idproduct) {
                           var qty = dataCart.product[i].quantity + 1
                           locUserCartProduct.child(dataCart.product[i].id).update({ quantity: qty })
                             .then(res => {
+                              console.log("count 2 " + count2)
                               alert("Berhasil ditambahkan")
+                              show = true
+                              count2++
+                              i = dataCart.product.length
                             })
                             .catch(error => {
                               errorHandler(error)
@@ -126,29 +144,35 @@ function addItem(idproduct) {
                         })
                       break;
                     default:
+                      var count3 = 0
                       locUserCart.update({
-                        total_amount: dataCart.total_amount + list_product[index].price
+                        total_amount: dataCart.total_amount + list_product[Object.keys(list_product)[index]].price
                       })
                         .then(response => {
                           locUserCartProduct.child(idproduct).set(
                             {
-                              id: `${list_product[index].id}`,
-                              name: list_product[index].name,
-                              pict: list_product[index].pict,
-                              price: list_product[index].price,
-                              desc: list_product[index].desc,
+                              id: `${list_product[Object.keys(list_product)[index]].id}`,
+                              name: list_product[Object.keys(list_product)[index]].name,
+                              pict: list_product[Object.keys(list_product)[index]].pict,
+                              price: list_product[Object.keys(list_product)[index]].price,
+                              desc: list_product[Object.keys(list_product)[index]].desc,
                               quantity: 1
                             }
                           ).then(res => {
+                            console.log("data i nya " + i)
+                            console.log("count 3 " + count3)
                             alert("Berhasil ditambahkan")
+                            count3++
                           }).catch(error => {
                             errorHandler(error)
                           })
                         }).catch(error => {
                           errorHandler(error)
                         })
+                        i = dataCart.product.length
                       break;
                   }
+                }
                 }
               }
             })
@@ -173,7 +197,7 @@ function deleteItem(idProduct, total_amount, price) {
       })
         .then(response => {
           alert("Berhasil menghapus")
-          window.location.href = "../GoodFood/cart.php";
+          window.location.href = "../cart.html";
         })
         .catch(e => {
           errorHandler(e)
@@ -246,7 +270,7 @@ function sendTestimonial() {
     .then(response => {
 
       alert('Berhasil mengirim ulasan')
-      window.location.href = "../GoodFood/testimonial.php";
+      window.location.href = "../testimonial.html";
     })
     .catch(e => {
       errorHandler(e)
@@ -295,9 +319,10 @@ function sendBlog() {
     .then(response => {
 
       alert('Berhasil mengirim blog')
-      window.location.href = "../GoodFood/blog.php";
+      window.location.href = "../blog.html";
     })
     .catch(e => {
       errorHandler(e)
     })
 }
+

@@ -17,7 +17,7 @@ const signUpUser = (email, pass, fullname, datebirth, username) => {
 		.then(response => {
 			console.log(response)
 			alert('Berhasil mendaftar akun')
-			window.location.href = "../GoodFood/signIn.php"
+			window.location.href = "../signIn.html"
 		})
 		.catch(e => {
 			errorHandler(e)
@@ -32,7 +32,7 @@ const signInUser = (email, pass) => {
 	auth.signInWithEmailAndPassword(email, pass)
 	.then(res => {
 		// No need of handling anything here auth.onAuthStateChanged function got this
-		window.location.href = "../GoodFood";
+		window.location.href = "../";
 	})
 	.catch(err => {
 		errorHandler(err)
@@ -65,7 +65,7 @@ const userLoggedOut = () => {
 	document.getElementById("home-login").style.display = "block"
 	document.getElementById("home-logout").style.display = "none"
     document.getElementById("navName").style.display = "none"
-	window.location.href = "../GoodFood";
+	window.location.href = "../";
 }
 
 
