@@ -264,17 +264,18 @@ function getListTestimonial() {
 function sendTestimonial() {
   const name = $("#name-testimonial").val()
   const desc = $("#ulasan-testimonial").val()
-  // var dataTestimonial = Object.keys(snapshot.val()).length;
 
-  db.ref("testimonial").push().set({ name, desc })
+  if(name != "" && desc != ""){
+    db.ref("testimonial").push().set({ name, desc })
     .then(response => {
-
+  
       alert('Berhasil mengirim ulasan')
       window.location.href = "../testimonial.html";
     })
     .catch(e => {
       errorHandler(e)
     })
+  }
 }
 
 // get Blog
@@ -288,7 +289,6 @@ if (isViewListBlogVisible) {
 
 function getListBlog() {
   db.ref('blog').on("value", function (snapshot) {
-    var key = snapshot.key;
     var list_blog = snapshot.val();
     // console.log(list_blog)
 
@@ -313,16 +313,16 @@ function sendBlog() {
   const desc = $("#isi-blog").val()
   var today = new Date()
   var dateNow = today.toLocaleDateString()
-  // var dataTestimonial = Object.keys(snapshot.val()).length;
 
-  db.ref("blog").push().set({ judul, name, desc, date: dateNow })
+  if(name != "" && judul != "" && desc != ""){
+    db.ref("blog").push().set({ judul, name, desc, date: dateNow })
     .then(response => {
-
       alert('Berhasil mengirim blog')
       window.location.href = "../blog.html";
     })
     .catch(e => {
       errorHandler(e)
     })
+  }
 }
 

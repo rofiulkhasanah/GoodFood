@@ -1,9 +1,21 @@
 auth.onAuthStateChanged(user => {
 	if (user) {
 		console.log(user)
+		
+		var isTestimonialFormVisible = $('#layout-testimonial').is(':visible');
+		if (isTestimonialFormVisible) {
+			showTestimonialForm()
+		}
+		
+		var isBlogFormVisible = $('#layout-blog').is(':visible');
+		if (isBlogFormVisible) {
+			showBlogForm()
+		}
 		userLoggedIn(user)
 	} else {
 		console.log("tidak ada akun signin")
+		document.getElementById("layout-testimonial").style.display = "none"
+		document.getElementById("layout-blog").innerHTML = ``;
 	}
 })
 
@@ -65,6 +77,17 @@ const userLoggedOut = () => {
 	document.getElementById("home-login").style.display = "block"
 	document.getElementById("home-logout").style.display = "none"
     document.getElementById("navName").style.display = "none"
+
+	var isTestimonialFormVisible = $('#layout-testimonial').is(':visible');
+	if (isTestimonialFormVisible) {
+		document.getElementById("layout-testimonial").style.display = "none"
+	}
+	
+	var isBlogFormVisible = $('#layout-blog').is(':visible');
+	if (isBlogFormVisible) {
+		document.getElementById("layout-blog").innerHTML = ``;
+	}
+	
 	window.location.href = "../";
 }
 
@@ -100,3 +123,47 @@ $("#home-logout").click(function (e) {
     e.preventDefault()
     signOutUser()
 })
+
+function showTestimonialForm(){
+	document.getElementById("layout-testimonial").innerHTML =`
+	<div class="container">
+	<h2 class="custom_heading">Tulis ulasanmu untuk product kami</h2>
+	<form>
+	  <div class="mb-3">
+		<label for="" class="form-label">Nama</label>
+		<input type="text" class="form-control" id="name-testimonial" required>
+	  </div>
+	  <div class="mb-3">
+		<label for="" class="form-label">Ulasan</label>
+		<textarea type="text" class="form-control" id="ulasan-testimonial" rows="5" required></textarea>
+	  </div>
+	  <button type="submit" name="btnSendTestimonial" id="btnSendTestimonial" class="btn btn-primary" onclick="sendTestimonial()">Submit</button>
+	</form>
+	</div>`;
+}
+
+function showBlogForm(){
+	document.getElementById("layout-blog").innerHTML =`
+	<div class="container">
+          <h2 class="custom_heading">You can share everything !!!</h2>
+          <form method="post">
+            <div class="mb-3">
+              <label for="" class="form-label">Creator</label>
+              <input type="text" class="form-control" id="creator-blog">
+            </div>
+            <div class="mb-3">
+              <label for="" class="form-label">Judul</label>
+              <input type="text" class="form-control" id="judul-blog">
+            </div>
+            <div class="mb-3">
+              <label for="" class="form-label">Cerita</label>
+              <textarea type="text" class="form-control" id="isi-blog" rows="5"></textarea>
+            </div>
+            <div class="quote_btn-container ml-0 ml-lg-4 d-flex justify-content-center">
+              <a onclick="sendBlog()">
+                Kirim Blog
+              </a>
+            </div>
+          </form>
+        </div>`;
+}

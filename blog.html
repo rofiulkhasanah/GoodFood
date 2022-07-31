@@ -13,7 +13,7 @@
   <meta name="author" content="" />
 
   <title>Good Food</title>
-	<link rel="shortcut icon" href="images/icon-large.png">
+  <link rel="shortcut icon" href="images/icon-large.png">
 
   <!-- slider stylesheet -->
   <link rel="stylesheet" type="text/css"
@@ -25,7 +25,9 @@
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
@@ -34,13 +36,13 @@
 </head>
 
 <body>
-<div id="loader" class="center"></div>
+  <div id="loader" class="center"></div>
 
-<header class="header_section">
+  <header class="header_section">
     <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container pt-3">
         <a class="navbar-brand" href="../">
-          <img src="images/icon-app.png" alt="" class="icon-app"/>
+          <img src="images/icon-app.png" alt="" class="icon-app" />
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +66,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="cart.html">
-                  <img src="images/cart.png" style="width:25px; height: 25px;" alt="" class=""/>
+                  <img src="images/cart.png" style="width:25px; height: 25px;" alt="" class="" />
                 </a>
               </li>
               <li class="nav-item" id="navName" name="navName" style="display: none;">
@@ -80,7 +82,7 @@
               Log out
             </a>
           </div>
-          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -93,36 +95,16 @@
       <div class="container" id="list_blog">
       </div>
 
+      <section class="client_section layout_padding" name="layout-blog" id="layout-blog">
+        
       <br>
-  <hr>
-  <br>
-
-      <div class="container">
-    <h2 class="custom_heading">You can share everything !!!</h2>
-    <form method="post">
-      <div class="mb-3">
-        <label for="" class="form-label">Creator</label>
-        <input type="text" class="form-control" id="creator-blog">
-      </div>
-      <div class="mb-3">
-        <label for="" class="form-label">Judul</label>
-        <input type="text" class="form-control" id="judul-blog">
-      </div>
-      <div class="mb-3">
-        <label for="" class="form-label">Cerita</label>
-        <textarea type="text" class="form-control" id="isi-blog" rows="5"></textarea>
-      </div>
-      <div class="quote_btn-container ml-0 ml-lg-4 d-flex justify-content-center" >
-        <a onclick="sendBlog()">
-        Kirim Blog
-        </a>
-      </div>
-    </form>
-    </div>
+      <hr>
+      <br>
+      </section>
     </div>
   </section>
 
-  
+
   <!-- footer section -->
   <section class="container-fluid footer_section">
     <p>
@@ -140,31 +122,30 @@
 
   <script src="js/logic/config.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+  <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
-<script src="js/logic/getData.js"></script>
-<script src="js/logic/getDataCart.js"></script>
-<script src="js/logic/authV2.js"></script>
-<script src="js/logic/counter.js"></script>
+  <script src="js/logic/getData.js"></script>
+  <script src="js/logic/getDataCart.js"></script>
+  <script src="js/logic/authV2.js"></script>
+  <script src="js/logic/counter.js"></script>
 
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <script>
-        document.onreadystatechange = function() {
-            if (document.readyState !== "complete") {
-                document.querySelector(
-                  "body").style.visibility = "hidden";
-                document.querySelector(
-                  "#loader").style.visibility = "visible";
-            } else {
-                document.querySelector(
-                  "#loader").style.display = "none";
-                document.querySelector(
-                  "body").style.visibility = "visible";
-            }
-        };
-    </script>
+    document.onreadystatechange = function () {
+      if (document.readyState !== "complete") {
+        document.querySelector(
+          "body").style.visibility = "hidden";
+        document.querySelector(
+          "#loader").style.visibility = "visible";
+      } else {
+        document.querySelector(
+          "#loader").style.display = "none";
+        document.querySelector(
+          "body").style.visibility = "visible";
+      }
+    };
+  </script>
 </body>
 
 </html>
-
