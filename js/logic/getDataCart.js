@@ -8,46 +8,52 @@ if(isViewCartVisible){
 function getCart(){
     auth.onAuthStateChanged(user => {
       if (user) {
+        var lengthData = 0
         db.ref('product').child("cart").child(user.uid).once("value", function(snapshot){
             var userDataCart = snapshot.val()
-            for(let i = 1; i < userDataCart.product.length ; i++){
-                var subTotal = userDataCart.product[i].quantity * userDataCart.product[i].price
+            lengthData = userDataCart.product.length - 1
+
+            // var dataUser = snapshot.child("product").val();
+            snapshot.child("product").forEach(child_data => {
+                var dataUser = child_data.val()
+                console.log("data " + JSON.stringify(dataUser.price))
+                var subTotal = JSON.stringify(dataUser.quantity) * JSON.stringify(dataUser.price)
                 document.getElementById("tbody-cart").innerHTML += `
                 <tr>
-                <th scope="row">${userDataCart.product[i].quantity}</th>
+                <th scope="row">${JSON.stringify(dataUser.quantity)}</th>
                 <td>
-                <img src="${userDataCart.product[i].pict}" style="width: 50px; height: 50px;" alt="" class="" />
+                <img src="${dataUser.pict}" style="width: 50px; height: 50px;" alt="" class="" />
                 </td>
-                <td>Rp. ${userDataCart.product[i].price}</td>
-                <td>Rp. ${userDataCart.product[i].quantity * userDataCart.product[i].price}</td>
+                <td>Rp. ${JSON.stringify(dataUser.price)}</td>
+                <td>Rp. ${JSON.stringify(dataUser.quantity) * JSON.stringify(dataUser.price)}</td>
                 <td>
-                <a class="delete-item" onclick="deleteItem('${userDataCart.product[i].id}','${userDataCart.total_amount}','${subTotal}')">
+                <a class="delete-item" onclick="deleteItem('${dataUser.id}','${userDataCart.total_amount}','${subTotal}','${lengthData}')">
                     <i class='fa fa-trash' style='color: #fc5d35' ></i>
                 </a>
                 </td>
-              </tr>`;
-            }
+                </tr>`;
+               })
 
-            document.getElementById("tbody-total-amount").innerHTML = `
-            <tr>
-              <th>Total Semua</th>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>Rp. ${userDataCart.total_amount}</td>
-              <td></td>
-              <td></td>
-            </tr>`;
+             document.getElementById("tbody-total-amount").innerHTML = `
+                <tr>
+                <th>Total Semua</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Rp. ${userDataCart.total_amount}</td>
+                <td></td>
+                <td></td>
+                </tr>`;
 
             document.getElementById("next-payment-view").innerHTML = `
-            <div class="quote_btn-container ml-0 ml-lg-4 d-flex justify-content-center" id="next-payment" name="next-payment">
-                <a name="payment-a" id="payment-a" onclick="nextPayment('${userDataCart.total_amount}')">
-                Lanjutkan Pembayaran
-                </a>
-            </div>
-            `;
+                <div class="quote_btn-container ml-0 ml-lg-4 d-flex justify-content-center" id="next-payment" name="next-payment">
+                    <a name="payment-a" id="payment-a" onclick="nextPayment('${userDataCart.total_amount}')">
+                    Lanjutkan Pembayaran
+                    </a>
+                </div>
+                `;
             
         })
       }else{
